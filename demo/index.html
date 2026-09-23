@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>APS Viewer Geometry Exporter demo</title>
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+    <!-- Resolves the bare three.js imports of the extension (keep in sync with package.json). -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.0/examples/jsm/"
+        }
+    }
+    </script>
+    <style>
+        html, body { margin: 0; height: 100%; font-family: sans-serif; }
+        #viewer { position: absolute; inset: 0; }
+        #setup { position: absolute; z-index: 10; top: 10px; right: 10px; width: 360px; padding: 12px;
+                 background: rgba(255, 255, 255, 0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
+        #setup label { display: block; font-size: 12px; margin-top: 8px; }
+        #setup input { width: 100%; box-sizing: border-box; }
+        #setup button { margin-top: 10px; width: 100%; padding: 6px; }
+        #setup p { font-size: 12px; margin: 0 0 4px; }
+    </style>
+</head>
+<body>
+    <div id="viewer"></div>
+    <form id="setup" hidden>
+        <p>Provide an access token (<code>viewables:read</code>) and one or more URNs of translated models.</p>
+        <label>Access token <input name="token" required autocomplete="off"></label>
+        <label>URN(s), comma-separated <input name="urn" required autocomplete="off"></label>
+        <button type="submit">Load</button>
+    </form>
+    <script type="module" src="../dist/demo/main.js"></script>
+</body>
+</html>

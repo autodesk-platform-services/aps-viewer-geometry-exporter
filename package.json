@@ -1,0 +1,26 @@
+{
+  "name": "aps-viewer-geometry-exporter",
+  "version": "0.1.0",
+  "description": "APS Viewer extension that exports loaded models as GLB or USDZ using the Scene API",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "demo": "npm run build && python3 -m http.server 8080"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0",
+    "typescript": "^7.0.2"
+  }
+}
