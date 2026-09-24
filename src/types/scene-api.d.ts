@@ -45,6 +45,7 @@ declare namespace Autodesk.Viewing {
     class Viewer3D {
         start(): number;
         loadDocumentNode(doc: Document, node: BubbleNode, options?: object): Promise<Model>;
+        unloadModel(model: Model): boolean;
         getAllModels(): Model[];
         getVisibleModels(): Model[];
         loadExtension(id: string, options?: object): Promise<Extension>;

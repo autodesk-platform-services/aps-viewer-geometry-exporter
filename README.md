@@ -26,9 +26,10 @@ npm test        # node:test with Node's built-in TypeScript support (Node 22.18+
 npm run demo    # builds, then serves the repo at http://localhost:8080
 ```
 
-Open `http://localhost:8080/demo/index.html?token=<access token>&urn=<urn>[,<urn>...]`, or open it without
-parameters and fill in the form. The token needs `viewables:read`; the URNs must point to translated models.
-Several comma-separated URNs load as a multi-model scene.
+Open `http://localhost:8080/demo/index.html` and sign in with your Autodesk account (OAuth with PKCE, hard-coded
+client ID of an APS "Single-Page App"). You can then browse your Fusion and Forma (ACC, BIM 360) hubs, projects and
+folders, and open the latest version of a design in the viewer. The page's exact URL has to be registered as a
+callback URL of that APS app. The demo UI is built with [Web Awesome](https://webawesome.com) components.
 
 ## Using the extension in your app
 
@@ -194,6 +195,6 @@ src/
   writers/glb.ts, usdz.ts      three.js exporters
   ui/ExportPanel.ts            DockingPanel UI
   types/scene-api.d.ts         hand-written declarations for the used viewer / Scene API surface
-demo/                          static demo page
+demo/                          static demo page (Autodesk sign-in, Data Management browser, viewer)
 test/                          node:test suites with Scene API fakes
 ```
