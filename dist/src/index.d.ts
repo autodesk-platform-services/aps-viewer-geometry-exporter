@@ -1,0 +1,10 @@
+export { EXTENSION_ID, registerGeometryExporterExtension, isSceneApiEnabled } from './GeometryExporterExtension.ts';
+export type { ExportCallOptions, GeometryExporterExtension } from './GeometryExporterExtension.ts';
+export { exportModels } from './exportModels.ts';
+export type { ExportFormat, ExportRequest, ExportResult, ExportProgress } from './exportModels.ts';
+export { extractScene, DEFAULT_EXTRACT_OPTIONS } from './extract/extractScene.ts';
+export type { ExtractOptions } from './extract/extractScene.ts';
+export { Diagnostics } from './diagnostics.ts';
+export type { DiagnosticCategory, DiagnosticEntry, ExportStats } from './diagnostics.ts';
+export { inspectModels } from './inspect.ts';
+export type { InspectReport } from './inspect.ts';

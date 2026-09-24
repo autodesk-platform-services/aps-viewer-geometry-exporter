@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>APS Viewer Geometry Exporter demo</title>
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+    <!-- Web Awesome UI components (https://webawesome.com); the autoloader registers the used wa-* elements. -->
+    <link rel="stylesheet" href="https://ka-f.webawesome.com/webawesome@3.13.0/styles/themes/default.css">
+    <script type="module" src="https://ka-f.webawesome.com/webawesome@3.13.0/webawesome.loader.js"></script>
+    <!-- Resolves the bare three.js imports of the extension (keep in sync with package.json). -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.0/examples/jsm/"
+        }
+    }
+    </script>
+    <style>
+        html, body { margin: 0; height: 100%; font-family: var(--wa-font-family-body); }
+        #viewer { position: absolute; inset: 0 0 0 340px; }
+        #login { position: absolute; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 380px; }
+        #login h3 { margin: 0; }
+        #login p { font-size: var(--wa-font-size-s); }
+        #login wa-button { width: 100%; }
+        #login:not([hidden]) ~ #viewer { left: 0; }
+        #sidebar { position: absolute; inset: 0 auto 0 0; width: 340px; box-sizing: border-box; display: flex;
+                   flex-direction: column; gap: var(--wa-space-s); padding: var(--wa-space-s);
+                   border-right: var(--wa-border-width-s) solid var(--wa-color-surface-border); font-size: var(--wa-font-size-s); }
+        #sidebar[hidden] { display: none; }
+        #sidebar header { display: flex; align-items: center; gap: var(--wa-space-s); }
+        wa-avatar { --size: 2rem; }
+        #user { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--wa-font-weight-semibold); }
+        #tree { flex: 1; overflow: auto; --indent-guide-width: 1px; }
+        #tree wa-tree-item { white-space: nowrap; }
+        /* The tree item label is a flex container, so whitespace between the parts collapses. */
+        #tree wa-icon { color: var(--wa-color-text-quiet); margin-right: var(--wa-space-xs); }
+        #tree small { margin-left: var(--wa-space-s); }
+        #tree small, #tree .placeholder { color: var(--wa-color-text-quiet); }
+        #tree .placeholder { font-style: italic; }
+    </style>
+</head>
+<body>
+    <wa-card id="login" hidden>
+        <h3 slot="header">APS Viewer Geometry Exporter</h3>
+        <p>Sign in with your Autodesk account to browse your Fusion and Forma projects and export designs as GLB or USDZ.</p>
+        <wa-button variant="brand">
+            <wa-icon slot="start" name="right-to-bracket"></wa-icon>
+            Sign in with Autodesk
+        </wa-button>
+        <p slot="footer">This page's URL (<code id="redirect-uri"></code>) must be registered as a callback URL of the APS application.</p>
+    </wa-card>
+    <aside id="sidebar" hidden>
+        <header>
+            <wa-avatar label="User"></wa-avatar>
+            <span id="user"></span>
+            <wa-button id="logout" size="small" appearance="outlined">Sign out</wa-button>
+        </header>
+        <wa-callout id="status" variant="neutral" size="s"></wa-callout>
+        <wa-tree id="tree" selection="leaf"></wa-tree>
+    </aside>
+    <div id="viewer"></div>
+    <script type="module" src="../dist/demo/main.js"></script>
+</body>
+</html>
