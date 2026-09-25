@@ -47,7 +47,7 @@ async function main() {
     await auth.handleCallback();
 
     if (!auth.isLoggedIn) {
-        document.getElementById('redirect-uri')!.textContent = location.origin + location.pathname;
+        document.getElementById('client-id')!.textContent = CLIENT_ID;
         const login = document.getElementById('login')!;
         login.hidden = false;
         login.querySelector('wa-button')!.addEventListener('click', () => auth.login());
