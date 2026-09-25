@@ -1,6 +1,6 @@
 // Minimal APS OAuth (3-legged, authorization code with PKCE) for a public "Single-Page App" client.
 // https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-3-legged-token-pkce/
-// The token is kept in sessionStorage, so it's shared by reloads but not by other tabs.
+// The token is kept in localStorage, so it survives closing the browser and is shared by all tabs.
 
 const AUTH_URL = 'https://developer.api.autodesk.com/authentication/v2';
 const TOKEN_KEY = 'aps-demo-token';
@@ -28,7 +28,7 @@ function randomString(byteLength: number): string {
 }
 
 function loadToken(): StoredToken | null {
-    const json = sessionStorage.getItem(TOKEN_KEY);
+    const json = localStorage.getItem(TOKEN_KEY);
     return json ? JSON.parse(json) as StoredToken : null;
 }
 
@@ -38,7 +38,7 @@ function saveToken(response: { access_token: string; refresh_token?: string; exp
         refreshToken: response.refresh_token,
         expiresAt: Date.now() + response.expires_in * 1000
     };
-    sessionStorage.setItem(TOKEN_KEY, JSON.stringify(token));
+    localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
     return token;
 }
 
@@ -86,7 +86,7 @@ export class Auth {
     }
 
     logout(): void {
-        sessionStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(TOKEN_KEY);
     }
 
     /**
@@ -136,11 +136,17 @@ export class Auth {
                 refresh_token: token.refreshToken,
                 scope: this.config.scopes.join(' ')
             }).finally(() => { this.refreshing = null; });
+            const usedRefreshToken = token.refreshToken;
             try {
                 token = await this.refreshing;
             } catch (err) {
-                this.logout();
-                throw err;
+                // Another tab may have refreshed first, consuming our refresh token; use its result if so.
+                const latest = loadToken();
+                if (!latest || latest.refreshToken === usedRefreshToken || latest.expiresAt - Date.now() < 60_000) {
+                    this.logout();
+                    throw err;
+                }
+                token = latest;
             }
         }
         return { accessToken: token.accessToken, expiresIn: Math.floor((token.expiresAt - Date.now()) / 1000) };
